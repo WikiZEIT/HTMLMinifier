@@ -1,8 +1,9 @@
 # HTMLMinifier
 
 [![packagist](https://img.shields.io/badge/packagist-0.1.0-blue.svg)](https://packagist.org/packages/wikizeit/html-minifier)
-[![Coverage Status](https://coveralls.io/repos/github/WikiZEIT/HTMLMinifier/badge.svg?branch=master)](https://coveralls.io/github/WikiZEIT/HTMLMinifier?branch=master)
+[![CI](https://github.com/WikiZEIT/HTMLMinifier/actions/workflows/test.yaml/badge.svg)](https://github.com/WikiZEIT/HTMLMinifier/actions/workflows/test.yaml)
 [![HTMLMinifier GitHub repo](https://img.shields.io/badge/github-HTMLMinifier-orange?logo=github)](https://github.com/WikiZEIT/HTMLMinifier)
+[![Coverage Status](https://coveralls.io/repos/github/WikiZEIT/HTMLMinifier/badge.svg?branch=master)](https://coveralls.io/github/WikiZEIT/HTMLMinifier?branch=master)
 [![LICENSE MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jcubic/horavox/blob/master/LICENSE)
 
 Lightweight PHP HTML minifier that uses
