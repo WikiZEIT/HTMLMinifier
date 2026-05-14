@@ -16,9 +16,11 @@ minification.
 - Collapses whitespace between tags
 - Minifies inline `<script>` blocks via Wikimedia's `JavaScriptMinifier`
 - Minifies inline `<style>` blocks via Wikimedia's `CSSMin`
+- Minifies `application/ld+json` and `application/json` script blocks via `json_encode`
+  (throws on invalid JSON)
 - Preserves content in `<pre>`, `<code>`, and `<textarea>` tags
 - Preserves IE conditional comments
-- Skips non-JavaScript script types (e.g. `application/ld+json`)
+- Skips other non-JavaScript script types (e.g. `text/template`)
 
 ## Installation
 

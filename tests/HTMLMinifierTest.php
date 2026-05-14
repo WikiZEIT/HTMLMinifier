@@ -82,11 +82,42 @@ class HTMLMinifierTest extends TestCase
         $this->assertStringContainsString('color', $result);
     }
 
+    public function testMinifyJsonLdScript(): void
+    {
+        $html = '<script type="application/ld+json">{
+            "name":   "test",
+            "url":    "https://example.com/path"
+        }</script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertSame(
+            '<script type="application/ld+json">{"name":"test","url":"https://example.com/path"}</script>',
+            $result
+        );
+    }
+
+    public function testMinifyApplicationJsonScript(): void
+    {
+        $html = '<script type="application/json">{  "key":  "value"  }</script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertSame(
+            '<script type="application/json">{"key":"value"}</script>',
+            $result
+        );
+    }
+
+    public function testInvalidJsonThrows(): void
+    {
+        $html = '<script type="application/ld+json">{ invalid }</script>';
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid JSON');
+        HTMLMinifier::minify($html);
+    }
+
     public function testPreserveNonJsScriptType(): void
     {
-        $html = '<script type="application/ld+json">{ "name": "test" }</script>';
+        $html = '<script type="text/template">  {{ hello }}  </script>';
         $result = HTMLMinifier::minify($html);
-        $this->assertStringContainsString('"name": "test"', $result);
+        $this->assertStringContainsString('  {{ hello }}  ', $result);
     }
 
     public function testMinifyTextJavascriptType(): void

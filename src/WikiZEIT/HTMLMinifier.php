@@ -68,7 +68,10 @@ class HTMLMinifier
             function ($m) {
                 $ph = $this->placeholder();
                 $attrs = $m[1];
-                if (preg_match('/\btype\s*=\s*["\'](?!text\/javascript)[^"\']+["\']/i', $attrs)) {
+                if (preg_match('/\btype\s*=\s*["\']application\/(?:ld\+)?json["\']/i', $attrs)) {
+                    $minified = $this->minifyJson(trim($m[2]));
+                    $this->preservedBlocks[$ph] = $attrs . $minified . $m[3];
+                } elseif (preg_match('/\btype\s*=\s*["\'](?!text\/javascript)[^"\']+["\']/i', $attrs)) {
                     $this->preservedBlocks[$ph] = $m[0];
                 } else {
                     $minified = $this->minifyJs(trim($m[2]));
@@ -138,6 +141,20 @@ class HTMLMinifier
         } catch (\Exception $e) {
             return $js;
         }
+    }
+
+    private function minifyJson(string $json): string
+    {
+        if (trim($json) === '') {
+            return '';
+        }
+        $data = json_decode($json);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \InvalidArgumentException(
+                'Invalid JSON in <script> block: ' . json_last_error_msg()
+            );
+        }
+        return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
     private function minifyCss(string $css): string
