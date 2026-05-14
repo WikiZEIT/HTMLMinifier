@@ -113,6 +113,66 @@ class HTMLMinifierTest extends TestCase
         HTMLMinifier::minify($html);
     }
 
+    public function testJsonLdPreservesUnicode(): void
+    {
+        $html = '<script type="application/ld+json">{ "name": "Jakub Jankiewicz" }</script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertStringContainsString('Jakub Jankiewicz', $result);
+        $this->assertStringNotContainsString('\\u', $result);
+    }
+
+    public function testJsonLdPreservesSlashes(): void
+    {
+        $html = '<script type="application/ld+json">{ "url": "https://example.com/foo/bar" }</script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertStringContainsString('https://example.com/foo/bar', $result);
+        $this->assertStringNotContainsString('\\/', $result);
+    }
+
+    public function testJsonLdNestedObject(): void
+    {
+        $html = '<script type="application/ld+json">{
+            "@context": "https://schema.org",
+            "@type":    "Person",
+            "address":  {
+                "@type":  "PostalAddress",
+                "country": "PL"
+            }
+        }</script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertSame(
+            '<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","address":{"@type":"PostalAddress","country":"PL"}}</script>',
+            $result
+        );
+    }
+
+    public function testJsonLdArray(): void
+    {
+        $html = '<script type="application/ld+json">[
+            { "name": "one" },
+            { "name": "two" }
+        ]</script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertSame(
+            '<script type="application/ld+json">[{"name":"one"},{"name":"two"}]</script>',
+            $result
+        );
+    }
+
+    public function testEmptyJsonLdScript(): void
+    {
+        $html = '<script type="application/ld+json"></script>';
+        $result = HTMLMinifier::minify($html);
+        $this->assertSame('<script type="application/ld+json"></script>', $result);
+    }
+
+    public function testJsonLdWithSingleQuotedType(): void
+    {
+        $html = "<script type='application/ld+json'>{  \"key\": \"val\"  }</script>";
+        $result = HTMLMinifier::minify($html);
+        $this->assertStringContainsString('{"key":"val"}', $result);
+    }
+
     public function testPreserveNonJsScriptType(): void
     {
         $html = '<script type="text/template">  {{ hello }}  </script>';
