@@ -12,7 +12,7 @@ test:
 	$(PHP) vendor/bin/phpunit --display-deprecations
 
 coverage:
-	XDEBUG_MODE=coverage $(PHP) vendor/bin/phpunit --coverage-text --display-deprecations
+	XDEBUG_MODE=coverage $(PHP) vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml --display-deprecations
 
 version:
 	sed -i 's/"version": *"[^"]*"/"version": "$(VERSION)"/' composer.json
