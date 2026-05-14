@@ -4,9 +4,25 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml'
+      - 'Makefile'
+      - '.github/workflows/test.yaml'
   pull_request:
     branches:
       - master
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml'
+      - 'Makefile'
+      - '.github/workflows/test.yaml'
 
 concurrency:
   group: ci-${{ github.ref }}
