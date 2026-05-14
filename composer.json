@@ -2,7 +2,7 @@
     "name": "wikizeit/html-minifier",
     "description": "Lightweight HTML minifier using wikimedia/minify for inline JS/CSS",
     "type": "library",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "license": "MIT",
     "autoload": {
         "psr-4": {
