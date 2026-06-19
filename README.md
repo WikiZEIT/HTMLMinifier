@@ -33,6 +33,8 @@ composer require wikizeit/html-minifier
 ### Static method
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
 use WikiZEIT\HTMLMinifier;
 
 $minified = HTMLMinifier::minify($html);
@@ -41,6 +43,8 @@ $minified = HTMLMinifier::minify($html);
 ### Instance with custom preserved comments
 
 ```php
+require_once __DIR__ . '/vendor/autoload.php';
+
 use WikiZEIT\HTMLMinifier;
 
 $minifier = new HTMLMinifier();
